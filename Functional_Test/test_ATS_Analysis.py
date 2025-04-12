@@ -36,7 +36,7 @@ class ATS:
 
             self.driver.find_element(*self.login_button).click()
             self.driver.find_element(*self.student_login_button).click()
-            
+
             self.driver.find_element(*self.google_sign_in).click()
             self.driver.find_element(*self.email).send_keys(email)
             self.driver.find_element(*self.email_sign_button).click()
