@@ -1,0 +1,25 @@
+Responsibilities
+
+-Provide Python automation testing efforts within the team
+-Develop and execute test cases and scripts to ensure the quality and reliability of our software products
+-Collaborate with cross-functional teams to understand testing requirements and provide testing support
+-Conduct thorough testing of SOAP and REST services to validate system functionality
+Create and maintain comprehensive test documentation, including checklists and test cases
+Utilize strong analytical skills to troubleshoot and resolve testing issues
+Design and implement formal test cases based on software requirements
+Contribute to the continuous improvement of testing processes and methodologies
+Participate in Scrum ceremonies and adhere to Agile principles in testing activities
+
+Requirements
+3-5 years of strong experience in Selenium Automation using Python
+Experience in software testing or development with good understanding of testing, coding and debugging procedures
+Strong experience in BDD Framework like Pytest
+Experience working with SOAP and REST service and understanding of SOA architecture
+Knowledge of various software testing techniques and methods, as well as experience applying them
+Experience maintaining test documentation (check-lists, test cases, etc.)
+Experience with Oracle database and strong SQL knowledge
+Strong analytical skills and attention to details
+Strong troubleshooting skills
+Ability to design formal test cases for testing, based on requirements
+Understanding of the Scrum main terms and principles
+B2+ English level proficiency

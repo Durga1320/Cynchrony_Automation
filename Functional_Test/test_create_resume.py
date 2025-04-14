@@ -120,7 +120,7 @@ class Resume:
         try:
 
             self.driver.find_element(*self.fullname).send_keys("Durga prasad")
-            self.driver.find_element(*self.email).send_keys("businessidea1320@gmail.com")
+            self.driver.find_element(*self.email).send_keys("durgaprasadkatakamsetti13@gmail.com")
             self.driver.find_element(*self.phone_number).send_keys("9381929292")
             self.driver.find_element(*self.linked_in).send_keys("linked_in")
             self.driver.find_element(*self.git_hub).send_keys("github.com/durga1")
@@ -322,7 +322,7 @@ def test_creating_resume(intiallizing,student_login):
     Resume_instance.test_Awards_Achievements()
     Resume_instance.test_Others()
     Resume_instance.download_resume_pdf()
-    Resume_instance.download_resume_DOC
+    Resume_instance.download_resume_DOC()
 
 
 

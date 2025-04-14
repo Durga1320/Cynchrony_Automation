@@ -3,6 +3,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.expected_conditions import element_to_be_clickable
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -21,14 +22,18 @@ class ATS:
         self.continue_button = (By.XPATH, "//div[@class='O1Slxf']/div/div[2]")
         self.logo_visible = (By.XPATH, "//span[text()='Cynchrony']")
         #self.accept_button = (By.ID, 'acceppt-button-content')
-        self.Ats_start_button = (By.XPATH, "((//div[@class='p-6'])[1]/div[2]/div/div/a/button[text()='Get Started'])[1]")
+        self.Ats_start_button = (By.XPATH, "(//a/button[text()='Get Started'])[1]")
         self.resume_upload = (By.XPATH, "//input[@type='file']")
         self.upload_button = (By.XPATH, "(//button[normalize-space()='Analyze Resume'])[1]")
         self.ats_score = (By.XPATH,"//div[@class='lg:w-2/3']/div/div[2]/h2")
-        self.over_all_score = (By.XPATH, "(//div[@class='relative']/div/div)[1]")
-        self.fomat_score = (By.XPATH,"(//div[@class='relative']/div/div)[2]")
-        self.content_score = (By.XPATH, "(//div[@class='relative']/div/div)[3]")
-        self.keyword_score = (By.XPATH, "(//div[@class='relative']/div/div)[4]")
+
+        self.format_score = (By.XPATH,"(//div[contains(@class,'hidden md:flex')]/div/div/div/div)[2]")
+        self.content_score = (By.XPATH, "(//div[contains(@class,'hidden md:flex')]/div/div/div/div)[3]")
+        self.keyword_score = (By.XPATH, "(//div[contains(@class,'hidden md:flex')]/div/div/div/div)[4]")
+        self.over_all_score = (By.XPATH, "(//div[contains(@class,'hidden md:flex')]/div/div/div/div)[1]")
+
+        self.career_sync = (By.XPATH, "//ul[@class='space-y-6']/li[2]/button/div")
+        self.create_resume_button = (By.CSS_SELECTOR, "ul[class='mt-2 ml-9 space-y-1'] li")
 
 
     def test_student_login(self,email,password):
@@ -47,6 +52,7 @@ class ATS:
             wait = WebDriverWait(self.driver, 10)
             wait.until(expected_conditions.presence_of_element_located(self.password_button))
             self.driver.find_element(*self.password_button).click()
+            time.sleep(10)
 
             self.driver.find_element(*self.continue_button).click()
 
@@ -62,22 +68,33 @@ class ATS:
 
     def test_ats_analysis(self,filepath):
         try:
-           wait= WebDriverWait(self.driver,10)
-           wait.until(expected_conditions.presence_of_element_located(self.Ats_start_button))
-           self.driver.find_element(*self.Ats_start_button).click()
-           resume = self.driver.find_element(*self.resume_upload)
-           resume.send_keys(filepath)
-           analys_button=self.driver.find_element(*self.upload_button)
-           analys_button.click()
-           Wait = WebDriverWait(self.driver, 20)
-           Wait.until(expected_conditions.visibility_of_element_located(self.ats_score))
-           ats_Discription =self.driver.find_element(*self.ats_score).text
-           Over_All_Score =self.driver.find_element(*self.over_all_score).text
-           Format_score = self.driver.find_element(*self.fomat_score).text
-           Content_score = self.driver.find_element(*self.content_score).text
-           Keyword_score = self.driver.find_element(*self.keyword_score).text
-           print(f"{ats_Discription}")
-           print(f"overall_score:{Over_All_Score}\nformat_score:{Format_score}\ncontent_score:{Content_score}\nkeyword_score:{Keyword_score}")
+            self.driver.find_element(*self.career_sync).click()
+            list_of_options = self.driver.find_elements(*self.create_resume_button)
+            for option in list_of_options:
+                if option.text == "ATS Analysis":
+                    self.C_R = option.find_element(By.CSS_SELECTOR, " a").click()
+                    break
+            assert element_to_be_clickable(self.C_R)
+            resume = self.driver.find_element(*self.resume_upload)
+            resume.send_keys(filepath)
+            analys_button=self.driver.find_element(*self.upload_button)
+            analys_button.click()
+            Wait = WebDriverWait(self.driver, 20)
+            Wait.until(expected_conditions.visibility_of_element_located(self.ats_score))
+            ats_Discription =self.driver.find_element(*self.ats_score).text
+            Wait = WebDriverWait(self.driver, 5)
+            Wait.until(expected_conditions.presence_of_element_located(self.format_score))
+            Format_score = self.driver.find_element(*self.format_score).text
+            Content_score = self.driver.find_element(*self.content_score).text
+            Keyword_score = self.driver.find_element(*self.keyword_score).text
+            Wait = WebDriverWait(self.driver, 10)
+            Wait.until(expected_conditions.visibility_of_element_located(self.over_all_score))
+            Over_All_Score = self.driver.find_element(*self.over_all_score).text
+            wait = WebDriverWait(self.driver, 10)
+            wait.until(expected_conditions.presence_of_element_located(self.over_all_score))
+            print(f"{ats_Discription}")
+            print(f"overall_score:{Over_All_Score}\nformat_score:{Format_score}\ncontent_score:{Content_score}\nkeyword_score:{Keyword_score}")
+
 
         except Exception as e:
             print(f"Login failed: {e}")
@@ -86,7 +103,7 @@ class ATS:
 
 
 @pytest.mark.parametrize("email,password,filepath", [
-    ("businessidea1320@gmail.com","Jamesdurga@12","F:\\My Resume\\Automation_sel_py.pdf" ),
+    ("durgaprasadkatakamsetti13@gmail.com","Prasad$12","F:\\My Resume\\Automation_sel_py.pdf" ),
    #("durgaprasadkatakamsetti13@gmail.com", "Prasad$12","F:\\My Resume\\Automation_sel_py.pdf"),
     #("anirudhchandana27@gmail.com","Anirudh@2025","F:\\My Resume\\Automation_resume_1.pdf" )
     ])
